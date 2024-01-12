@@ -45,13 +45,11 @@ public class MainActivity extends AppCompatActivity implements NewRecordingListe
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
         || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            Log.w(TAG, "Permissions denied. You might want to inform the user about the importance of permissions for your app's functionality.");
+            Log.w(TAG, "Start to request the record and read media/audio permission.");
 
             ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_MEDIA_AUDIO}, 20);
 
-            Log.w(TAG, "Request action finished.");
         } else {
-            Log.d(TAG, "Permission already granted.");
             getRecordings(recordingsRecyclerView);
         }
 
@@ -62,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements NewRecordingListe
                 RecordingDialog recordingDialog = new RecordingDialog(MainActivity.this, MainActivity.this);
                 recordingDialog.setCancelable(false);
                 recordingDialog.show();
-
             }
         });
     }
@@ -86,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements NewRecordingListe
         // Check sound recording list
         // if yes, the list them
         // if not, just show no recordings yet
-
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/SoundRecorder");
 
         if (file.exists()) {
@@ -101,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements NewRecordingListe
                 recordingsLists.add(recordingsList);
             }
 
-            Log.e(TAG, String.valueOf(recyclerView));
             recyclerView.setAdapter(new RecordingsAdapter(MainActivity.this, recordingsLists));
 
         } else {
@@ -114,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements NewRecordingListe
     @Override
     public void onNewRecord() {
         recordingsLists.clear();
+
+        RecyclerView recordingsRecyclerView = findViewById(R.id.recordingsRecyclerView);
         getRecordings(recordingsRecyclerView);
     }
 }

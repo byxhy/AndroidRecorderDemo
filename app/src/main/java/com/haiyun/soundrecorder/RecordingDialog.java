@@ -171,10 +171,8 @@ public class RecordingDialog extends Dialog {
         recorder.release();
         recorder = null;
 
-
         dismiss();
         newRecordingListener.onNewRecord();
-
     }
 
 }
